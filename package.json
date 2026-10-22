@@ -1,0 +1,50 @@
+{
+  "name": "kra-etims-mcp",
+  "version": "1.0.0",
+  "description": "High-performance Model Context Protocol (MCP) server providing deep KRA eTIMS integration knowledge, API specs, validation, and diagnostics for AI coding assistants.",
+  "main": "dist/index.js",
+  "bin": {
+    "kra-etims-mcp": "./dist/index.js"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "kra",
+    "etims",
+    "oscu",
+    "vscu",
+    "kenya-revenue-authority",
+    "tax",
+    "e-invoicing",
+    "cursor",
+    "antigravity",
+    "claude-code",
+    "copilot"
+  ],
+  "author": "KRA eTIMS Community",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "minisearch": "^7.1.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "kra-etims": {
+      "command": "node",
+      "args": ["dist/index.js"]
+    }
+  }
+}
