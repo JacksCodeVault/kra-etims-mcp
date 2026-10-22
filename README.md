@@ -176,6 +176,149 @@ docker run -i --rm kra-etims-mcp
 
 ---
 
+## OS-Specific Startup & Setup Guide (Linux, macOS, Windows)
+
+Whether you choose Docker or Node.js (`npx`), follow the instructions below tailored to your operating system.
+
+---
+
+### Linux (Ubuntu, Debian, Fedora, Arch, CentOS)
+
+#### Method 1: Docker (Single Command with Reboot Auto-Restart)
+
+1. **Ensure Docker is running**:
+   ```bash
+   sudo systemctl enable --now docker
+   ```
+2. **Start the container**:
+   ```bash
+   docker compose up -d
+   ```
+   *(Or with pure Docker CLI)*:
+   ```bash
+   docker run -d --name kra-etims-mcp --restart unless-stopped -p 3000:3000 kra-etims-mcp --http 3000
+   ```
+3. **Verify running status**:
+   ```bash
+   curl http://localhost:3000/health
+   ```
+
+#### Method 2: Node.js / NPX (No Docker Required)
+
+Requires Node.js 18+ installed (`node -v`):
+```bash
+npx -y kra-etims-mcp
+```
+
+#### Linux Client Configuration File Paths:
+- **Cursor**: `~/.cursor/mcp.json` or project `.cursor/mcp.json`
+- **Google Antigravity**: `~/.gemini/config/mcp_config.json` or project `.agents/mcp_config.json`
+- **Zed IDE**: `~/.config/zed/settings.json` or project `.zed/settings.json`
+- **Claude Code**: `~/.claude.json` or project `.mcp.json`
+- **OpenAI Codex**: `~/.codex/config.toml`
+- **GitHub Copilot / VS Code**: `~/.config/Code/User/globalStorage/github.copilot/mcp.json` or project `.vscode/mcp.json`
+
+---
+
+### macOS (Apple Silicon M1/M2/M3/M4 & Intel)
+
+#### Method 1: Docker (Docker Desktop or OrbStack)
+
+1. **Ensure Docker Desktop is open**:
+   Launch `Docker.app` or `OrbStack.app` from Applications.
+2. **Start the container**:
+   In Terminal (`zsh`):
+   ```bash
+   docker compose up -d
+   ```
+   *(Or with pure Docker CLI)*:
+   ```bash
+   docker run -d --name kra-etims-mcp --restart unless-stopped -p 3000:3000 kra-etims-mcp --http 3000
+   ```
+3. **Verify running status**:
+   ```bash
+   curl http://localhost:3000/health
+   ```
+
+#### Method 2: Node.js / NPX (No Docker Required)
+
+Requires Node.js installed (`brew install node`):
+```bash
+npx -y kra-etims-mcp
+```
+
+#### macOS Client Configuration File Paths:
+- **Cursor**: `~/Library/Application Support/Cursor/User/globalStorage/cursor.mcp/mcp.json` or project `.cursor/mcp.json`
+- **Google Antigravity**: `~/.gemini/config/mcp_config.json` or project `.agents/mcp_config.json`
+- **Zed IDE**: `~/Library/Application Support/Zed/settings.json` or project `.zed/settings.json`
+- **Claude Code**: `~/.claude.json` or project `.mcp.json`
+- **OpenAI Codex**: `~/.codex/config.toml`
+- **GitHub Copilot / VS Code**: `~/Library/Application Support/Code/User/globalStorage/github.copilot/mcp.json` or project `.vscode/mcp.json`
+
+---
+
+### Windows (10 & 11)
+
+#### Method 1: Docker Desktop (with WSL2 Backend)
+
+1. **Ensure Docker Desktop is running**:
+   Start Docker Desktop from the Start Menu. Ensure WSL2 integration is enabled.
+2. **Start the container** (Run in PowerShell or Command Prompt):
+   ```powershell
+   docker compose up -d
+   ```
+   *(Or with pure Docker CLI)*:
+   ```powershell
+   docker run -d --name kra-etims-mcp --restart unless-stopped -p 3000:3000 kra-etims-mcp --http 3000
+   ```
+3. **Verify running status**:
+   ```powershell
+   curl http://localhost:3000/health
+   # or in PowerShell:
+   Invoke-RestMethod http://localhost:3000/health
+   ```
+
+#### Method 2: Node.js / NPX on Windows
+
+Requires Node.js installed from [nodejs.org](https://nodejs.org/):
+```powershell
+npx -y kra-etims-mcp
+```
+
+> [!NOTE]
+> On Windows, some tools require specifying `cmd.exe /c npx -y kra-etims-mcp` if `npx` is a `.cmd` batch script. Example for Windows `mcp.json`:
+> ```json
+> {
+>   "mcpServers": {
+>     "kra-etims": {
+>       "command": "cmd.exe",
+>       "args": ["/c", "npx", "-y", "kra-etims-mcp"]
+>     }
+>   }
+> }
+> ```
+> Or when using Docker directly on Windows:
+> ```json
+> {
+>   "mcpServers": {
+>     "kra-etims": {
+>       "command": "docker",
+>       "args": ["run", "-i", "--rm", "kra-etims-mcp"]
+>     }
+>   }
+> }
+> ```
+
+#### Windows Client Configuration File Paths:
+- **Cursor**: `%APPDATA%\Cursor\User\globalStorage\cursor.mcp\mcp.json` or project `.cursor\mcp.json`
+- **Google Antigravity**: `%USERPROFILE%\.gemini\config\mcp_config.json` or project `.agents\mcp_config.json`
+- **Zed IDE**: `%APPDATA%\Zed\settings.json` or project `.zed\settings.json`
+- **Claude Code**: `%USERPROFILE%\.claude.json` or project `.mcp.json`
+- **OpenAI Codex**: `%USERPROFILE%\.codex\config.toml`
+- **GitHub Copilot / VS Code**: `%APPDATA%\Code\User\globalStorage\github.copilot\mcp.json` or project `.vscode\mcp.json`
+
+---
+
 ## Capabilities & Developer Tools
 
 ### 1. Tools
