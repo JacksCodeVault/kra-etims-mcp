@@ -1,0 +1,20 @@
+services:
+  kra-etims-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kra-etims-mcp:latest
+    container_name: kra-etims-mcp
+    restart: unless-stopped
+    command: ["--http", "3000"]
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - TRANSPORT=http
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3

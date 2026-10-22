@@ -1,0 +1,10 @@
+{
+  "context_servers": {
+    "kra-etims": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "kra-etims-mcp"]
+      }
+    }
+  }
+}

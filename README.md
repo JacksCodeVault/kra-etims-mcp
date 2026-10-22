@@ -18,6 +18,7 @@ Works out-of-the-box via the standard **STDIO transport** with:
 |---|---|---|
 | **Cursor** | `.cursor/mcp.json` or `~/.cursor/mcp.json` | [x] Supported |
 | **Google Antigravity** | `.agents/mcp_config.json` or `/mcp` CLI | [x] Supported |
+| **Zed IDE** | `.zed/settings.json` or `~/.config/zed/settings.json` | [x] Supported |
 | **Claude Code** | `.mcp.json` or `claude mcp add` | [x] Supported |
 | **OpenAI Codex** | `~/.codex/config.toml` | [x] Supported |
 | **GitHub Copilot** | `.vscode/mcp.json` | [x] Supported |
@@ -64,13 +65,44 @@ Add to `.agents/mcp_config.json` in your workspace root, or configure interactiv
 }
 \`\`\`
 
-### 3. Claude Code
+### 3. Zed IDE
+Add to `.zed/settings.json` in your project or global `~/.config/zed/settings.json`:
+
+```json
+{
+  "context_servers": {
+    "kra-etims": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "kra-etims-mcp"]
+      }
+    }
+  }
+}
+```
+
+Or when running via local Docker container:
+
+```json
+{
+  "context_servers": {
+    "kra-etims": {
+      "command": {
+        "path": "docker",
+        "args": ["run", "-i", "--rm", "kra-etims-mcp"]
+      }
+    }
+  }
+}
+```
+
+### 4. Claude Code
 Run the CLI command:
-\`\`\`bash
+```bash
 claude mcp add --transport stdio kra-etims -- npx -y kra-etims-mcp
-\`\`\`
+```
 Or create `.mcp.json` in your repository root:
-\`\`\`json
+```json
 {
   "mcpServers": {
     "kra-etims": {
@@ -79,21 +111,21 @@ Or create `.mcp.json` in your repository root:
     }
   }
 }
-\`\`\`
+```
 
-### 4. OpenAI Codex
+### 5. OpenAI Codex
 Add to `~/.codex/config.toml`:
 
-\`\`\`toml
+```toml
 [mcp_servers.kra-etims]
 command = "npx"
 args = ["-y", "kra-etims-mcp"]
-\`\`\`
+```
 
-### 5. GitHub Copilot (VS Code)
+### 6. GitHub Copilot (VS Code)
 Add to `.vscode/mcp.json`:
 
-\`\`\`json
+```json
 {
   "mcpServers": {
     "kra-etims": {
@@ -102,7 +134,45 @@ Add to `.vscode/mcp.json`:
     }
   }
 }
-\`\`\`
+```
+
+---
+
+## Running in Docker (Automatic Reboot Restart)
+
+The server can run as a background container configured with `restart: unless-stopped`, so it stays alive across host reboots.
+
+### Option A: Docker Compose (Recommended)
+
+1. Start the service:
+```bash
+docker compose up -d
+```
+
+2. Check health status:
+```bash
+curl http://localhost:3000/health
+```
+
+3. Connect your IDEs using the HTTP/SSE endpoint:
+- **SSE Stream**: `http://localhost:3000/sse`
+- **Messages**: `http://localhost:3000/message`
+
+### Option B: Docker CLI
+
+Run in daemon mode with automatic reboot restart:
+```bash
+docker run -d \
+  --name kra-etims-mcp \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  kra-etims-mcp --http 3000
+```
+
+Run in STDIO mode directly from your IDE:
+```bash
+docker run -i --rm kra-etims-mcp
+```
 
 ---
 
