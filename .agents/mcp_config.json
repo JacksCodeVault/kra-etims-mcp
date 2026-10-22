@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "kra-etims": {
-      "command": "node",
-      "args": ["dist/index.js"]
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "kra-etims-mcp"]
     }
   }
 }
